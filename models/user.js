@@ -21,13 +21,12 @@ class User extends Sequelize.Model {
             },
             nickname: {
                type: Sequelize.STRING(20),
-               allowNull: true,
+               allowNull: false,
                unique: true,
             },
-            profileIcon: {
+            profileImg: {
                type: Sequelize.STRING,
-               allowNull: true,
-               defaultValue: 'baseIcon'
+               defaultValue: 'defaultImg'
             },
          },
          {  // 두번째 객체 인수는 테이블 자체에 대한 설정
