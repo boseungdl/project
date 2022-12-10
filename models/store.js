@@ -27,7 +27,7 @@ class Store extends Sequelize.Model {
                type: Sequelize.INTEGER,
                allowNull: false
             },
-            longitude: {//경도
+            longitude: {//경도 
                type: Sequelize.INTEGER,
                allowNull: false
             }
