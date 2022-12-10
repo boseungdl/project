@@ -23,6 +23,20 @@ app.use(morgan('dev')); // 로그
 app.use(express.static(path.join(__dirname, 'public'))); // 요청시 기본 경로 설정
 app.use(express.json()); // json 파싱
 app.use(express.urlencoded({ extended: false })); // uri 파싱
+
+
+
+
+const Router = require('./routes')
+const userRouter = require('./routes/user')
+
+app.use('/', Router);
+app.use('/user', userRouter);
+
+
+
+
+
  
 // 일부러 에러 발생시키기 TEST용
 app.use((req, res, next) => {
