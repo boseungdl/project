@@ -6,8 +6,12 @@ class Menu extends Sequelize.Model {
  
       return super.init(
          {  
-            name: {
+            menuName: {
                type: Sequelize.STRING(20),
+               allowNull: false,
+            },
+            price: {
+               type: Sequelize.INTEGER,
                allowNull: false,
             },
             
@@ -25,7 +29,7 @@ class Menu extends Sequelize.Model {
    }
  
   static associate(db) {
-    db.Menu.belongsTo(db.Store, { foreignKey: 'storename', targetKey: 'name'});
+    db.Menu.belongsTo(db.Store, { foreignKey: 'Store_id', targetKey: 'id', onDelete: 'cascade', onUpdate: 'cascade'});
   }
   
 };

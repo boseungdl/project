@@ -7,21 +7,27 @@ class User extends Sequelize.Model {
       return super.init(
          {  
             name: {
-               type: Sequelize.STRING(5),
+               type: Sequelize.STRING(10),
                allowNull: false,
             },
-            email: {
+            userId: {
                type: Sequelize.STRING(50),
                allowNull: false,
                unique: true,
             },
             pw: {
-               type: Sequelize.STRING,
+               type: Sequelize.STRING(100),
                allowNull: false,
             },
             nickname: {
-               type: Sequelize.STRING(10),
+               type: Sequelize.STRING(20),
                allowNull: true,
+               unique: true,
+            },
+            profileIcon: {
+               type: Sequelize.STRING,
+               allowNull: true,
+               defaultValue: 'baseIcon'
             },
          },
          {  // 두번째 객체 인수는 테이블 자체에 대한 설정
@@ -35,9 +41,10 @@ class User extends Sequelize.Model {
          }
       );
    }
- 
-
-  
+   static associate(db) { // 인자로 index.js에서 만든 여러 테이블이 저장되어있는 db객체를 받을 것이다.    
+      db.User.hasMany(db.Store, { foreignKey: 'User_userId', sourceKey: 'userId', onDelete: 'cascade', onUpdate: 'cascade'});      
+      db.User.hasMany(db.Review, { foreignKey: 'User_nickName', sourceKey: 'nickname', onDelete: 'cascade', onUpdate: 'cascade'});      
+   }
 };
  
 module.exports = User;

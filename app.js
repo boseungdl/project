@@ -6,13 +6,13 @@ const morgan = require('morgan');
 const { sequelize } = require('./models');
 const app = express();
  
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 8000);
  
 
-app.set('public', path.join(__dirname, 'publick'));
+app.set('public', path.join(__dirname, 'public'));
 app.set('view engine', 'ejs');
  
-sequelize.sync({ alter: true  })
+sequelize.sync({ alter: true })
    .then(() => {
       console.log('데이터베이스 연결됨.');
    }).catch((err) => {
@@ -36,7 +36,6 @@ app.use((err, req, res, next) => {
    // 템플릿 변수 설정
    res.locals.message = err.message;
    res.locals.error = process.env.NODE_ENV !== 'production' ? err : {}; // 배포용이 아니라면 err설정 아니면 빈 객체
- 
    res.status(err.status || 500);
    res.render('error'); // 템플릿 엔진을 렌더링 하여 응답
 });

@@ -10,7 +10,6 @@ class Review extends Sequelize.Model {
                type: Sequelize.INTEGER,
                allowNull: false,
             },
-            
          },
          {  // 두번째 객체 인수는 테이블 자체에 대한 설정
             sequelize, /* static init 메서드의 매개변수와 연결되는 옵션으로, db.sequelize 객체를 넣어야 한다. */
@@ -25,7 +24,8 @@ class Review extends Sequelize.Model {
    }
  
   static associate(db) {
-    db.Review.belongsTo(db.Store, { foreignKey: 'storename', targetKey: 'name'});
+    db.Review.belongsTo(db.Store, { foreignKey: 'Store_id', targetKey: 'id', onDelete: 'cascade', onUpdate: 'cascade'});
+    db.Review.belongsTo(db.User, { foreignKey: 'User_nickName', targetKey: 'nickname', onDelete: 'cascade', onUpdate: 'cascade'});
   }
   
 };
