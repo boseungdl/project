@@ -2,17 +2,22 @@ const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
 const passport = require('passport');
-const session =require('express-session')
- 
+const session = require('express-session')
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const port = 8000;
 // index.js에 있는 db.sequelize 객체 모듈을 구조분해로 불러온다.
 const { sequelize } = require('./models');
+const passportConfig = require('./passport');
 const app = express();
  
-app.set('port', 8000);
+
  
 
 app.set('public', path.join(__dirname, 'public'));
-app.set('view engine', 'ejs');
+app.set("view engine", "ejs");
 
 
  
@@ -25,7 +30,7 @@ sequelize.sync({ alter: true }) //db수정사항 반영 - 기존 데이터랑 �
    }).catch((err) => {
       console.error(err);
    });
-
+   passportConfig();
 
 app.use(morgan('dev')); // 로그
 app.use(express.static(path.join(__dirname, 'public'))); // 요청시 기본 경로 설정
@@ -33,6 +38,7 @@ app.use(express.json()); // json 파싱
 app.use(express.urlencoded({ extended: false })); // uri 파싱
 //app.use(cookieParser());
 app.use(session({
+   secret: '1234',
    resave:false,
    saveUninitialized: false,
    cookie:{
@@ -47,10 +53,10 @@ app.use(passport.session());
 //패스포트세션이 쿠키받고 id값을 deserializeUser로 넘겨준다.
 
 
-const Router = require('./routes')
+const Router = require('./routes/index');
 const userRouter = require('./routes/user');
 const authRouter = require('./routes/auth');
-const cookieParser = require('cookie-parser');
+//const cookieParser = require('cookie-parser');
 
 app.use('/', Router);
 app.use('/user', userRouter);
@@ -61,8 +67,8 @@ app.use('/auth', authRouter);
 
 
  
-// 일부러 에러 발생시키기 TEST용
-app.use((req, res, next) => {
+//일부러 에러 발생시키기 TEST용
+app.get('*', (req, res, next) => {
    const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
    error.status = 404;
    next(error);
@@ -72,12 +78,12 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
    // 템플릿 변수 설정
    res.locals.message = err.message; //res.locals는 ejs에서 message라는 변수를 쓰게 해준다.
-   //res.locals.error = process.env.NODE_ENV !== 'production' ? err : {}; // 배포용이 아니라면 err설정 아니면 빈 객체
+   res.locals.error = process.env.NODE_ENV !== 'production' ? err : {}; // 배포용이 아니라면 err설정 아니면 빈 객체
    res.status(err.status || 500);
    res.render('error'); // 템플릿 엔진을 렌더링 하여 응답
 });
  
 // 서버 실행
-app.listen(app.get('port'), () => {
-   console.log(app.get('port'), '번 포트에서 대기 중');
+app.listen(port, () => {
+   console.log(port, '번 포트에서 대기 중');
 });

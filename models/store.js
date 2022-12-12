@@ -47,7 +47,7 @@ class Store extends Sequelize.Model {
    static associate(db) { // 인자로 index.js에서 만든 여러 테이블이 저장되어있는 db객체를 받을 것이다.
       db.Store.hasMany(db.Menu, { foreignKey: 'Store_id', sourceKey: 'id', onDelete: 'cascade', onUpdate: 'cascade'});
       db.Store.hasMany(db.Review, { foreignKey: 'Store_id', sourceKey: 'id', onDelete: 'cascade', onUpdate: 'cascade'});
-      db.Store.belongsTo(db.User, { foreignKey: 'User_userId', sourceKey: 'id', onDelete: 'cascade', onUpdate: 'cascade'});
+      db.Store.belongsTo(db.User, { foreignKey: 'User_id', sourceKey: 'id', onDelete: 'cascade', onUpdate: 'cascade'});
    }
 
   

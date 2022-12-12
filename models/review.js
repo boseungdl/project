@@ -26,7 +26,7 @@ class Review extends Sequelize.Model {
  
   static associate(db) {
     db.Review.belongsTo(db.Store, { foreignKey: 'Store_id', targetKey: 'id', onDelete: 'cascade', onUpdate: 'cascade'});
-    db.Review.belongsTo(db.User, { foreignKey: 'User_nickName', targetKey: 'nickname', onDelete: 'cascade', onUpdate: 'cascade'});
+    db.Review.belongsTo(db.User, { foreignKey: 'User_nickName', targetKey: 'nickName', onDelete: 'cascade', onUpdate: 'cascade'});
   }
   
 };
