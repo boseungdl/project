@@ -17,7 +17,16 @@ class User extends Sequelize.Model {
             },
             pw: {
                type: Sequelize.STRING(100),
-               allowNull: false,
+               allowNull: true,
+            },
+            provider: {
+               type: Sequelize.STRING(10),
+               allowNull: false, 
+               defaultValue: 'local'
+            },
+            snsId: {
+               type: Sequelize.STRING(30),
+               allowNull: true, 
             },
             nickname: {
                type: Sequelize.STRING(20),
@@ -26,6 +35,7 @@ class User extends Sequelize.Model {
             },
             profileImg: {
                type: Sequelize.STRING,
+               allowNull: false, 
                defaultValue: 'defaultImg'
             },
          },
@@ -37,6 +47,7 @@ class User extends Sequelize.Model {
             timestamps: false,
             paranoid: false, /* true : deletedAt이라는 컬럼이 생기고 지운 시각이 기록된다. */
             charset: 'utf8', /* 인코딩 */
+            collate: 'utf8_general_ci'
          }
       );
    }

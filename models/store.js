@@ -40,6 +40,7 @@ class Store extends Sequelize.Model {
             timestamps: false,
             paranoid: false, /* true : deletedAt이라는 컬럼이 생기고 지운 시각이 기록된다. */
             charset: 'utf8', /* 인코딩 */
+            collate: 'utf8_general_ci'
          }
       );
    }
